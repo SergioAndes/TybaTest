@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 const authRoutes =require('./routes/auth')
 const restaurantRoutes =require('./routes/restaurant')
 const path = require('path')
+require('dotenv').config();
+
+const mongoConn = process.env.MONGO_CONN; //"foobar"
 ///const { v4: uuidv4 } = require('uuid');
 
 
@@ -14,7 +17,7 @@ app.use(bodyParser.json())
 //midellware para toda la app, para aceptar headers
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*')
-    res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE')
+    res.setHeader('Access-Control-Allow-Methods','GET,POST')
     res.setHeader('Access-Control-Allow-Headers','Content-Type,Authorization')
     next();
 });
@@ -36,11 +39,10 @@ app.use((error,req,res,next)=>{
 })
 
 //conexion a la db e inicializaicion del server
-mongoose.connect(
-    'mongodb+srv://root:root@cluster0.xscsg.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(mongoConn)
     .then(result =>{
     app.listen(3000)
-    console.log("escuchando en 3000")
+    console.log("listening in 3000")
 })
 .catch(err=>
     {
