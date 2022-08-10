@@ -30,7 +30,10 @@ exports.getRestaurants= async (req,res,next)=>{
             creator:creator
         });
         await transacction.save()  
-        res.status(200).json(restaurantList)
+        var restaurantNames = restaurantList.results.map(function(item) {
+            return item.name;
+          });
+        res.status(200).json(restaurantNames)
 
     }catch(err){
         err.statusCode=500
