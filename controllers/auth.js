@@ -3,6 +3,9 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET; //"foobar
+
 
 exports.signup=async (req,res,next)=>{
     try{
@@ -57,7 +60,7 @@ exports.login=async (req,res,next)=>{
             {
                 userName:loadedUser.userName,
                 userId:loadedUser._id.toString()
-            }, 'somesuperduperlongsecret',
+            }, jwtSecret,
             {expiresIn:'1h'}
         )
         res.status(200).json({token:token})
