@@ -71,4 +71,15 @@ exports.login=async (req,res,next)=>{
 
 }
 
+exports.logout=async (req,res,next)=>{
+    const authHeader = req.headers["authorization"];
+    jwt.sign(authHeader, "", { expiresIn: '0h' } , (logout, err) => {
+        if (logout) {
+            res.send({msg : 'You have been Logged Out' });
+        }else{
+            res.send({msg:'Error'});
+        }   
+    })
+}
+
 
